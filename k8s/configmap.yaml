@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payments-config
+  namespace: fcg
+  labels:
+    app: payments-api
+data:
+  RabbitMQ__Host: "rabbitmq"
+  Payment__TaxaAprovacaoPercent: "80"
