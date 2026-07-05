@@ -22,40 +22,6 @@ O **PaymentsAPI** é um microsserviço **stateless** — sem banco de dados — 
 
 ---
 
-## Estrutura
-
-```
-PaymentsAPI/
-├── src/
-│   ├── FCG.Payments.Worker/          # Worker Service — entry point, DI, MassTransit
-│   │   ├── Program.cs
-│   │   ├── appsettings.json
-│   │   └── appsettings.Development.json
-│   └── FCG.Payments.Application/     # Lógica de negócio, eventos, consumer
-│       ├── Consumers/
-│       │   └── OrderPlacedConsumer.cs
-│       ├── Events/
-│       │   ├── OrderPlacedEvent.cs
-│       │   └── PaymentProcessedEvent.cs
-│       ├── Interfaces/
-│       │   └── IPaymentSimulatorService.cs
-│       └── Services/
-│           └── PaymentSimulatorService.cs
-├── tests/
-│   └── FCG.Payments.Application.Tests/
-│       ├── PaymentSimulatorServiceTest.cs
-│       └── OrderPlacedConsumerTest.cs
-├── k8s/
-│   ├── configmap.yaml
-│   ├── deployment.yaml
-│   └── secret.yaml
-├── Dockerfile
-├── docker-compose.yml
-└── PaymentsAPI.sln
-```
-
----
-
 ## Como Funciona a Simulação
 
 O `PaymentSimulatorService` simula um gateway de pagamento externo:
@@ -88,6 +54,17 @@ Em caso de erro irrecuperável, a mensagem é descartada com log de erro (sem re
 ### Pré-requisitos
 - .NET 9 SDK
 - Docker + Docker Compose
+
+## Baixar Projetos
+
+Deverá ser feito o clone do projeto.
+
+```bash
+# PaymentsAPI
+git clone https://github.com/diogo138/fiap-cloud-games-payments-api.git
+```
+
+---
 
 ### Com Docker Compose (recomendado)
 
@@ -181,13 +158,3 @@ Queue: fcg.order.placed
 | `UserEmail` | `string` | E-mail do usuário |
 | `Status` | `string` | `"Approved"` ou `"Rejected"` |
 | `ProcessedAt` | `DateTime` | Data/hora UTC do processamento |
-
----
-
-## Tecnologias
-
-- **.NET 9** — Worker Service
-- **MassTransit 8** — Abstração de mensageria com retry policy
-- **RabbitMQ** — Message broker
-- **NUnit 4** — Framework de testes
-- **Moq** — Mocking em testes unitários
